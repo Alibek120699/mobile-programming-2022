@@ -1,36 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { CountdownTimer } from "./CountdownTimer";
 
 const App = () => {
-  const [workTime, setWorkTime] = useState(30);
-  const [showMessage, setShowMessage] = useState(false);
+  const [showMessage, setShowMessage] = useState(true);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setWorkTime((prev) => (prev === 1 ? 30 : prev - 1));
-    }, 60 * 1000); // 1 minute
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (workTime === 30) {
-      setShowMessage(true);
+    if (!showMessage) {
       setTimeout(() => {
-        setShowMessage(false);
-      }, 5 * 60 * 1000); // 5 minutes
+        setShowMessage(true);
+      }, 25 * 60 * 1000); // 25 minutes
     }
-  }, [workTime]);
+  }, [showMessage]);
 
   return (
     <View style={styles.container}>
-      <Text>Pomodoro Timer</Text>
-      <Text>
-        Time to {showMessage ? "relax" : "work"} left:{" "}
-        {showMessage ? (workTime % 5 === 0 ? 5 : workTime % 5) : workTime}
-      </Text>
-      {showMessage && <Text>Break time for 5 minutes</Text>}
+      <Text style={styles.title}>Pomodoro Timer</Text>
+      {showMessage ? (
+        <>
+          <Text style={styles.message}>Break time for 5 minutes</Text>
+          <CountdownTimer destroy={() => setShowMessage(false)} />
+        </>
+      ) : (
+        <Text style={styles.message}>Time to Work</Text>
+      )}
     </View>
   );
 };
@@ -40,6 +33,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  message: {
+    fontSize: 24,
+    color: "green",
   },
 });
 
