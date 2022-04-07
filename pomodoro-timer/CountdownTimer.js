@@ -21,7 +21,8 @@ export function CountdownTimer({ destroy }) {
 
   return (
     <Text style={styles.timerText}>
-      {Math.floor(count / 60)}:{count % 60}
+      {Math.floor(count / 60)}:{count % 60 < 10 ? "0" : ""}
+      {count % 60}
     </Text>
   );
 }
