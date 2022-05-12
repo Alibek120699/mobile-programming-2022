@@ -32,6 +32,9 @@ class SearchScreen extends React.Component {
     );
   };
 
+  filterUsers = (u) =>
+    u.username.toLowerCase().startsWith(this.state.searchItem.toLowerCase());
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -41,10 +44,11 @@ class SearchScreen extends React.Component {
           onChangeText={(text) => this.handleText(text)}
           value={this.state.searchItem}
         />
-
-        <View style={styles.breakLine}>
-          <Text style={{ fontSize: 25 }}>----------Tracks----------</Text>
-        </View>
+        {tracks.filter(this.filterTracks).length > 0 && (
+          <View style={styles.breakLine}>
+            <Text style={{ fontSize: 25 }}>----------Tracks----------</Text>
+          </View>
+        )}
         {tracks.filter(this.filterTracks).map((t) => (
           <View key={t.id} style={styles.trackstyle}>
             <View style={styles.textview}>
@@ -61,26 +65,26 @@ class SearchScreen extends React.Component {
           </View>
         ))}
 
-        <View style={styles.breakLine}>
-          <Text style={{ fontSize: 25 }}>----------Friends----------</Text>
-        </View>
+        {users.filter(this.filterUsers).length > 0 && (
+          <View style={styles.breakLine}>
+            <Text style={{ fontSize: 25 }}>----------Friends----------</Text>
+          </View>
+        )}
 
-        {users
-          .filter((u) => u.username.startsWith(this.state.searchItem))
-          .map((u) => (
-            <View key={u.id} style={styles.friendstyle}>
-              <View style={styles.friendview}>
-                <Text style={styles.friend}>{u.username}</Text>
-              </View>
-              <View style={styles.buttonStyle}>
-                <Button
-                  color="steelblue"
-                  title="+"
-                  onPress={() => this.props.addFriend(u)}
-                />
-              </View>
+        {users.filter(this.filterUsers).map((u) => (
+          <View key={u.id} style={styles.friendstyle}>
+            <View style={styles.friendview}>
+              <Text style={styles.friend}>{u.username}</Text>
             </View>
-          ))}
+            <View style={styles.buttonStyle}>
+              <Button
+                color="steelblue"
+                title="+"
+                onPress={() => this.props.addFriend(u)}
+              />
+            </View>
+          </View>
+        ))}
       </ScrollView>
     );
   }
