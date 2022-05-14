@@ -6,9 +6,9 @@ import { parseClassicStats } from "./parsers";
 export const getStatsFail = declareAction();
 export const getStatsSuccess = declareAction();
 export const getStats = declareAction(
-  async (payload, store) =>
+  async (_, store) =>
     await api
-      .getClassicStats(payload.type, payload.monthDict)
+      .getStats()
       .then((res) => {
         if (res.data.code !== 0) {
           store.dispatch(getStatsFail(res.data.message));

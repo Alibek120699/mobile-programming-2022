@@ -18,7 +18,7 @@ export default function App() {
     <context.Provider value={store}>
       <NavigationContainer>
         <Tab.Navigator
-          initialRouteName="Visits"
+          initialRouteName="Stats"
           screenOptions={({ route }) => ({
             tabBarIcon: ({ color, size }) => {
               let iconName;
