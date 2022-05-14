@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { useAtom, useAction } from "@reatom/react";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import { atoms, actions } from "../../store/profile";
 
-import AboutProfile from "./detail";
+import AboutProfile, { StudioDescriptionScreen } from "./detail";
 import ProfileLoading from "./loading";
+
+const Stack = createStackNavigator();
 
 const userAvatar =
   "https://api-private.atlassian.com/users/2184498dc850fadb06abe64ffd9c1c88/avatar";
 
-export function ProfileScreen() {
+export function Profile({ navigation }) {
   const profileAtom = useAtom(atoms.profile);
   const getProfile = useAction(actions.getProfile);
 
@@ -20,6 +23,10 @@ export function ProfileScreen() {
   const [description, setDescription] = useState("");
   const [website, setWebsite] = useState("");
   const [qr, setQr] = useState("");
+
+  const goToDescriptionPage = () => {
+    navigation.navigate("Description", { description });
+  };
 
   useEffect(() => {
     getProfile();
@@ -49,8 +56,22 @@ export function ProfileScreen() {
           website={website}
           description={description}
           qrImage={qr}
+          goToDescriptionPage={goToDescriptionPage}
         />
       )}
     </ScrollView>
+  );
+}
+
+export function ProfileScreen() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Description" component={StudioDescriptionScreen} />
+    </Stack.Navigator>
   );
 }

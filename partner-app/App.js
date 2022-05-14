@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { context } from "@reatom/react";
 import { FontAwesome5 } from "@expo/vector-icons";
+import "react-native-gesture-handler";
 
 import {
   ProfileScreen,
@@ -18,7 +19,7 @@ export default function App() {
     <context.Provider value={store}>
       <NavigationContainer>
         <Tab.Navigator
-          initialRouteName="Stats"
+          initialRouteName="Profile"
           screenOptions={({ route }) => ({
             tabBarIcon: ({ color, size }) => {
               let iconName;

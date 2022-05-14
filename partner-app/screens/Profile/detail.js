@@ -6,15 +6,35 @@ import {
   View,
   Image,
   Linking,
+  Button,
 } from "react-native";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { colors } from "../../theme";
 import { noImg } from "../../components/Visit/noImg";
 
+export function StudioDescriptionScreen({ route, navigation }) {
+  const { description } = route.params;
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.description}>{description}</Text>
+
+      <Button title="Go Back" onPress={navigation.goBack} />
+    </View>
+  );
+}
+
 const AboutProfile = (props) => {
-  const { userAvatar, name, email, phones, website, description, qrImage } =
-    props;
+  const {
+    userAvatar,
+    name,
+    email,
+    phones,
+    website,
+    qrImage,
+    goToDescriptionPage,
+  } = props;
 
   const [qrError, setQrError] = useState(false);
 
@@ -49,14 +69,7 @@ const AboutProfile = (props) => {
   const renderDetail = () => {
     return (
       <>
-        {detail === "description" ? (
-          <>
-            {renderTitleBack("Описание зала")}
-            <View style={styles.container}>
-              <Text style={styles.description}>{description}</Text>
-            </View>
-          </>
-        ) : detail === "qr" ? (
+        {detail === "qr" ? (
           <>
             {renderTitleBack("QR-код")}
             <View style={[styles.container, styles.qrContainer]}>
@@ -218,10 +231,7 @@ const AboutProfile = (props) => {
                 {website}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleDetail("description")}
-              style={styles.list}
-            >
+            <TouchableOpacity onPress={goToDescriptionPage} style={styles.list}>
               <View style={styles.icon}>
                 <MaterialCommunityIcons
                   name="view-headline"
